@@ -49,7 +49,7 @@ class DynamicFields(Block):
                     value = field.formula(signal)
                 except Exception as e:
                     value = None
-                    self._logger.error(
+                    self._logger.warning(
                         "Dynamic field {0} evaluation failed: {0}: {1}".format(
                             type(e).__name__, str(e))
                     )
