@@ -9,13 +9,13 @@ from nio.metadata.properties.bool import BoolProperty
 
 
 class SignalField(PropertyHolder):
-    title = StringProperty(default='')
+    title = ExpressionProperty(default='', attr_default=AttributeError)
     formula = ExpressionProperty(default='')
 
 
 @Discoverable(DiscoverableType.block)
 class DynamicFields(Block):
-    
+
     """ Dynamic Fields block.
 
     A NIO block for enriching signals dynamically.
@@ -53,8 +53,17 @@ class DynamicFields(Block):
                         "Dynamic field {0} evaluation failed: {0}: {1}".format(
                             type(e).__name__, str(e))
                     )
-                    
-                setattr(tmp, field.title, value)
+                try:
+                    title = field.title(signal)
+                except Exception as e:
+                    title = None
+                    self._logger.warning(
+                        "Title {0} evaluation failed: {0}: {1}".format(
+                            type(e).__name__, str(e))
+                    )
+
+                if title is not None:
+                    setattr(tmp, title, value)
 
             # only rebuild the signal list if we're using new objects
             if self.exclude:
