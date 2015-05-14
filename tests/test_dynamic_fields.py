@@ -4,18 +4,18 @@ from nio.common.signal.base import Signal
 
 
 class DummySignal(Signal):
-    
+
     def __init__(self, val):
         super().__init__()
         self.val = val
 
 
 class TestDynamicFields(NIOBlockTestCase):
-    
+
     def setUp(self):
         super().setUp()
         self.last_notified = []
-    
+
     def signals_notified(self, signals, output_id='default'):
         self.last_notified = signals
 
@@ -27,7 +27,7 @@ class TestDynamicFields(NIOBlockTestCase):
         blk.start()
         blk.process_signals(signals)
         self.assertDictEqual(attrs, self.last_notified[0].__dict__)
-    
+
     def test_add_field(self):
         signals = [DummySignal("a banana!")]
         blk = DynamicFields()
@@ -78,3 +78,35 @@ class TestDynamicFields(NIOBlockTestCase):
         sig = self.last_notified[0]
         self.assertTrue(hasattr(sig, 'greeting'))
         self.assertIsNone(sig.greeting)
+
+    def test_bad_title_attr(self):
+        """ Doesn't set an attribute """
+        signals = [DummySignal("")]
+        blk = DynamicFields()
+        self.configure_block(blk, {
+            "exclude": True,
+            "fields": [{
+                "title": "{{ $bad }}",
+                "formula": "Title is bad. You won't see me."
+            }]
+        })
+        blk.start()
+        blk.process_signals(signals)
+        sig = self.last_notified[0]
+        self.assertDictEqual(sig.to_dict(), {})
+
+    def test_empty_title(self):
+        """ Doesn't set an attribute """
+        signals = [DummySignal("")]
+        blk = DynamicFields()
+        self.configure_block(blk, {
+            "exclude": True,
+            "fields": [{
+                "title": "{{ $val }}",
+                "formula": "Title is empty."
+            }]
+        })
+        blk.start()
+        blk.process_signals(signals)
+        sig = self.last_notified[0]
+        self.assertDictEqual(sig.to_dict(), {"": "Title is empty."})
