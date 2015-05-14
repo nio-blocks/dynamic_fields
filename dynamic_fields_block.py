@@ -47,20 +47,16 @@ class DynamicFields(Block):
             for field in self.fields:
                 try:
                     value = field.formula(signal)
-                except Exception as e:
+                except:
                     value = None
                     self._logger.warning(
-                        "Dynamic field {0} evaluation failed: {0}: {1}".format(
-                            type(e).__name__, str(e))
-                    )
+                        "Dynamic field evaluation failed", exc_info=True)
                 try:
                     title = field.title(signal)
-                except Exception as e:
+                except:
                     title = None
                     self._logger.warning(
-                        "Title {0} evaluation failed: {0}: {1}".format(
-                            type(e).__name__, str(e))
-                    )
+                        "Title evaluation failed", exc_info=True)
 
                 if title is not None:
                     setattr(tmp, title, value)
