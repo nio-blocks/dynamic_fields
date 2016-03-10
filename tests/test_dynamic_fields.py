@@ -1,6 +1,7 @@
+from nio.block.terminals import DEFAULT_TERMINAL
+from nio.signal.base import Signal
+from nio.testing.block_test_case import NIOBlockTestCase
 from ..dynamic_fields_block import DynamicFields
-from nio.util.support.block_test_case import NIOBlockTestCase
-from nio.common.signal.base import Signal
 
 
 class DummySignal(Signal):
@@ -12,91 +13,110 @@ class DummySignal(Signal):
 
 class TestDynamicFields(NIOBlockTestCase):
 
-    def setUp(self):
-        super().setUp()
-        self.last_notified = []
-
-    def signals_notified(self, signals, output_id='default'):
-        self.last_notified = signals
-
     def test_pass(self):
-        signals = [DummySignal("a banana!")]
+        """Signals pass through unmodified when no fields are configured"""
+        signals = [DummySignal('a banana!')]
         attrs = signals[0].__dict__
         blk = DynamicFields()
         self.configure_block(blk, {})
         blk.start()
         blk.process_signals(signals)
-        self.assertDictEqual(attrs, self.last_notified[0].__dict__)
+        blk.stop()
+        self.assertDictEqual(
+            attrs, self.last_notified[DEFAULT_TERMINAL][0].__dict__)
 
     def test_add_field(self):
-        signals = [DummySignal("a banana!")]
+        """Signal get new attributes from configured fields"""
+        signals = [DummySignal('a banana!')]
         blk = DynamicFields()
         config = {
             "fields": [{
                 "title": "greeting",
-                "formula": "I am {{$val}}"
+                "formula": "I am {{ $val }}"
             }]
         }
         self.configure_block(blk, config)
         blk.start()
         blk.process_signals(signals)
-        sig = self.last_notified[0]
+        blk.stop()
+        sig = self.last_notified[DEFAULT_TERMINAL][0]
         self.assertTrue(hasattr(sig, 'greeting'))
         self.assertTrue(hasattr(sig, 'val'))
-        self.assertEqual(sig.greeting, "I am a banana!")
+        self.assertEqual(sig.greeting, 'I am a banana!')
 
     def test_exclude(self):
-        signals = [DummySignal("stumped...")]
+        """Signal only have new attributes when exclude is True"""
+        signals = [DummySignal('gone...')]
         blk = DynamicFields()
         config = {
             "exclude": True,
             "fields": [{
                 "title": "greeting",
-                "formula": "I am {{$val}}"
+                "formula": "I am {{ $val }}"
             }]
         }
         self.configure_block(blk, config)
         blk.start()
         blk.process_signals(signals)
-        sig = self.last_notified[0]
+        blk.stop()
+        sig = self.last_notified[DEFAULT_TERMINAL][0]
         self.assertTrue(hasattr(sig, 'greeting'))
         self.assertFalse(hasattr(sig, 'val'))
-        self.assertEqual(sig.greeting, "I am stumped...")
+        self.assertEqual(sig.greeting, 'I am gone...')
 
-    def test_bogus_field(self):
-        signals = [DummySignal("you won't see me")]
+    def test_invalid_field_expression(self):
+        """Signal is never notified if a field expression fails"""
+        signals = [Signal()]
         blk = DynamicFields()
         self.configure_block(blk, {
             "exclude": True,
             "fields": [{
                 "title": "greeting",
-                "formula": "I am {{dict($val)}}"
+                "formula": "I am {{ dict('bad') }}"
             }]
         })
         blk.start()
-        blk.process_signals(signals)
-        sig = self.last_notified[0]
-        self.assertTrue(hasattr(sig, 'greeting'))
-        self.assertIsNone(sig.greeting)
+        with self.assertRaises(Exception):
+            blk.process_signals(signals)
+        blk.stop()
+        self.assertFalse(self.last_notified)
 
-    def test_bad_title_attr(self):
-        """ Doesn't set an attribute """
-        signals = [DummySignal("")]
+    def test_invalid_title_expression(self):
+        """Signal is never notified if a title expression fails"""
+        signals = [Signal()]
         blk = DynamicFields()
         self.configure_block(blk, {
             "exclude": True,
             "fields": [{
-                "title": "{{ $bad }}",
+                "title": "This title will {{ fail }}",
+                "formula": "I am sad"
+            }]
+        })
+        blk.start()
+        with self.assertRaises(Exception):
+            blk.process_signals(signals)
+        blk.stop()
+        self.assertFalse(self.last_notified)
+
+    def test_list_of_bad_signals(self):
+        """No signals are notified if one of them fails"""
+        signals = [DummySignal(""), Signal()]
+        blk = DynamicFields()
+        self.configure_block(blk, {
+            "exclude": True,
+            "fields": [{
+                "title": "{{ $val }}",
                 "formula": "Title is bad. You won't see me."
             }]
         })
         blk.start()
-        blk.process_signals(signals)
-        sig = self.last_notified[0]
-        self.assertDictEqual(sig.to_dict(), {})
+        with self.assertRaises(Exception):
+            blk.process_signals(signals)
+        blk.stop()
+        self.assertFalse(self.last_notified)
 
     def test_empty_title(self):
-        """ Doesn't set an attribute """
+        """Empty titles are allowed"""
         signals = [DummySignal("")]
         blk = DynamicFields()
         self.configure_block(blk, {
@@ -108,5 +128,23 @@ class TestDynamicFields(NIOBlockTestCase):
         })
         blk.start()
         blk.process_signals(signals)
-        sig = self.last_notified[0]
+        blk.stop()
+        sig = self.last_notified[DEFAULT_TERMINAL][0]
         self.assertDictEqual(sig.to_dict(), {"": "Title is empty."})
+
+    def test_none_title(self):
+        """None titles are not allowed"""
+        signals = [DummySignal("")]
+        blk = DynamicFields()
+        self.configure_block(blk, {
+            "exclude": True,
+            "fields": [{
+                "title": "{{ None }}",
+                "formula": "Title is empty."
+            }]
+        })
+        blk.start()
+        with self.assertRaises(Exception):
+            blk.process_signals(signals)
+        blk.stop()
+        self.assertFalse(self.last_notified)
