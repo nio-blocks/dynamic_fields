@@ -1,3 +1,4 @@
+from unittest import skip
 from nio.block.terminals import DEFAULT_TERMINAL
 from nio.signal.base import Signal
 from nio.testing.block_test_case import NIOBlockTestCase
@@ -115,8 +116,9 @@ class TestDynamicFields(NIOBlockTestCase):
         blk.stop()
         self.assertFalse(self.last_notified)
 
+    @skip("TODO: Empty titles actually are allowed right now but shouldn't be")
     def test_empty_title(self):
-        """Empty titles are allowed"""
+        """Empty titles are not allowed"""
         signals = [DummySignal("")]
         blk = DynamicFields()
         self.configure_block(blk, {
@@ -128,9 +130,10 @@ class TestDynamicFields(NIOBlockTestCase):
         })
         blk.start()
         blk.process_signals(signals)
+        with self.assertRaises(Exception):
+            blk.process_signals(signals)
         blk.stop()
-        sig = self.last_notified[DEFAULT_TERMINAL][0]
-        self.assertDictEqual(sig.to_dict(), {"": "Title is empty."})
+        self.assertFalse(self.last_notified)
 
     def test_none_title(self):
         """None titles are not allowed"""
