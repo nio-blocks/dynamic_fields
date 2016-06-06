@@ -7,7 +7,7 @@ from nio.properties import Property, VersionProperty, ListProperty, \
 
 class SignalField(PropertyHolder):
     title = Property(default='', title='Attribute Name')
-    formula = Property(default='', title='Attribute Value')
+    formula = Property(default='', title='Attribute Value', allow_none=True)
 
 
 @discoverable
