@@ -1,19 +1,16 @@
-from nio.common.block.base import Block
-from nio.common.signal.base import Signal
-from nio.common.discovery import Discoverable, DiscoverableType
-from nio.metadata.properties.list import ListProperty
-from nio.metadata.properties.expression import ExpressionProperty
-from nio.metadata.properties.string import StringProperty
-from nio.metadata.properties.holder import PropertyHolder
-from nio.metadata.properties.bool import BoolProperty
+from nio.block.base import Block
+from nio.signal.base import Signal
+from nio.util.discovery import discoverable
+from nio.properties import Property, VersionProperty, ListProperty, \
+    BoolProperty, PropertyHolder
 
 
 class SignalField(PropertyHolder):
-    title = ExpressionProperty(default='', attr_default=AttributeError)
-    formula = ExpressionProperty(default='')
+    title = Property(default='', title='Attribute Name')
+    formula = Property(default='', title='Attribute Value', allow_none=True)
 
 
-@Discoverable(DiscoverableType.block)
+@discoverable
 class DynamicFields(Block):
 
     """ Dynamic Fields block.
@@ -27,8 +24,9 @@ class DynamicFields(Block):
 
     """
 
-    fields = ListProperty(SignalField, title='Fields')
+    fields = ListProperty(SignalField, title='Fields', default=[])
     exclude = BoolProperty(default=False, title='Exclude existing fields?')
+    version = VersionProperty('0.1.0')
 
     def process_signals(self, signals):
         """ Overridden from the block interface.
@@ -40,32 +38,20 @@ class DynamicFields(Block):
 
             # if we are including only the specified fields, create
             # a new, empty signal object
-            tmp = Signal() if self.exclude else signal
+            tmp = Signal() if self.exclude() else signal
 
             # iterate over the specified fields, evaluating the formula
             # in the context of the original signal
-            for field in self.fields:
-                try:
-                    value = field.formula(signal)
-                except:
-                    value = None
-                    self._logger.warning(
-                        "Dynamic field evaluation failed", exc_info=True)
-                try:
-                    title = field.title(signal)
-                except:
-                    title = None
-                    self._logger.warning(
-                        "Title evaluation failed", exc_info=True)
-
-                if title is not None:
-                    setattr(tmp, title, value)
+            for field in self.fields():
+                value = field.formula(signal)
+                title = field.title(signal)
+                setattr(tmp, title, value)
 
             # only rebuild the signal list if we're using new objects
             if self.exclude:
                 fresh_signals.append(tmp)
 
-        if self.exclude:
+        if self.exclude():
             signals = fresh_signals
 
         self.notify_signals(signals)
