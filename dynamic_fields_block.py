@@ -22,6 +22,11 @@ class DynamicFields(Block):
     set, the block instantiates new (generic) signals and
     passes them along with *only* the specified fields.
 
+    Properties:
+        - fields(list): List of attribute names and corresponding values to add
+                        to the incoming signals.
+        - exclude(bool): If `True`, output signals only contain the attributes
+                   specified by `fields`.
     """
 
     fields = ListProperty(SignalField, title='Fields', default=[])
@@ -29,9 +34,6 @@ class DynamicFields(Block):
     version = VersionProperty('0.1.0')
 
     def process_signals(self, signals):
-        """ Overridden from the block interface.
-
-        """
         fresh_signals = []
 
         for signal in signals:
