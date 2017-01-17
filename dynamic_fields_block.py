@@ -1,6 +1,5 @@
 from nio.block.base import Block
 from nio.signal.base import Signal
-from nio.util.discovery import discoverable
 from nio.properties import Property, VersionProperty, ListProperty, \
     BoolProperty, PropertyHolder
 
@@ -10,7 +9,6 @@ class SignalField(PropertyHolder):
     formula = Property(default='', title='Attribute Value', allow_none=True)
 
 
-@discoverable
 class DynamicFields(Block):
 
     """ Dynamic Fields block.
