@@ -1,0 +1,7 @@
+{
+  "nio/DynamicFields": {
+    "Reference": "github.com/nio-blocks/dynamic_fields.git@v1.0.0",
+    "Version": "1.0.0",
+    "Language": "Python"
+  }
+}
