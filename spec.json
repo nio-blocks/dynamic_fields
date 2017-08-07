@@ -1,7 +1,7 @@
 {
   "nio/DynamicFields": {
     "version": "0.1.0",
-    "description": "A NIO block for enriching signals dynamically.  \nBy default, the dynamic fields block adds attributes to existing signals as specified. If the `exclude` flag is set, the block instantiates new (generic) signals and passes them along with *only* the specified `fields`.",
+    "description": "A NIO block for enriching signals dynamically.  By default, the dynamic fields block adds attributes to existing signals as specified. If the `exclude` flag is set, the block instantiates new (generic) signals and passes them along with *only* the specified `fields`.",
     "properties": {
       "exclude": {
         "title": "Exclude existing fields?",
