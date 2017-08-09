@@ -29,7 +29,7 @@ class DynamicFields(Block):
 
     fields = ListProperty(SignalField, title='Fields', default=[])
     exclude = BoolProperty(default=False, title='Exclude existing fields?')
-    version = VersionProperty('0.1.0')
+    version = VersionProperty('0.1.1')
 
     def process_signals(self, signals):
         fresh_signals = []
