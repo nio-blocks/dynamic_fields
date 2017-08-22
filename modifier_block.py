@@ -9,13 +9,11 @@ class SignalField(PropertyHolder):
     formula = Property(default='', title='Attribute Value', allow_none=True)
 
 
-class DynamicFields(Block):
+class Modifier(Block):
 
-    """ Dynamic Fields block.
+    """ A nio block for enriching signals.
 
-    A NIO block for enriching signals dynamically.
-
-    By default, the dynamic fields block adds attributes to
+    By default, the modifier block adds attributes to
     existing signals as specified. If the 'exclude' flag is
     set, the block instantiates new (generic) signals and
     passes them along with *only* the specified fields.
