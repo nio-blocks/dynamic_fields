@@ -1,12 +1,12 @@
 {
   "nio/DynamicFields": {
     "language": "Python",
-    "url": "git://github.com//nio-blocks/dynamic_fields.git",
+    "url": "git://github.com/nio-blocks/dynamic_fields.git",
     "version": "0.1.1"
   },
   "nio/Modifier": {
     "language": "Python",
-    "url": "git://github.com//nio-blocks/dynamic_fields.git",
+    "url": "git://github.com/nio-blocks/modifier.git",
     "version": "0.1.1"
   }
 }
