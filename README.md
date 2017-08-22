@@ -26,7 +26,7 @@ None
 
 Modifier
 ========
-Aadds attributes to existing signals as specified. If the `exclude` flag is set, the block instantiates new (generic) signals and passes them along with *only* the specified `fields`.
+Adds attributes to existing signals as specified. If the `exclude` flag is set, the block instantiates new (generic) signals and passes them along with *only* the specified `fields`.
 
 Properties
 ----------
