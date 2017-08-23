@@ -1,6 +1,6 @@
 {
   "nio/DynamicFields": {
-    "version": "0.1.1",
+    "version": "1.0.0",
     "description": "DEPRECATED, USE Modifier INSTEAD - A NIO block for enriching signals dynamically.  By default, the dynamic fields block adds attributes to existing signals as specified. If the `exclude` flag is set, the block instantiates new (generic) signals and passes them along with *only* the specified `fields`.",
     "properties": {
       "exclude": {
@@ -29,8 +29,8 @@
     "commands": {}
   },
   "nio/Modifier": {
-    "version": "0.1.1",
-    "description": "Aadds attributes to existing signals as specified. If the `exclude` flag is set, the block instantiates new (generic) signals and passes them along with *only* the specified `fields`.",
+    "version": "1.0.0",
+    "description": "Adds attributes to existing signals as specified. If the `exclude` flag is set, the block instantiates new (generic) signals and passes them along with *only* the specified `fields`.",
     "properties": {
       "exclude": {
         "title": "Exclude existing fields?",
