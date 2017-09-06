@@ -27,7 +27,7 @@ class Modifier(Block):
 
     fields = ListProperty(SignalField, title='Fields', default=[])
     exclude = BoolProperty(default=False, title='Exclude existing fields?')
-    version = VersionProperty('1.0.0')
+    version = VersionProperty("1.0.0")
 
     def process_signals(self, signals):
         fresh_signals = []
