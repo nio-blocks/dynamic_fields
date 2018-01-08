@@ -1,6 +1,6 @@
 {
   "nio/Modifier": {
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "The modifier block adds attributes to existing signals as specified. If the `exclude` flag is set, the block instantiates new (generic) signals and passes them along with *only* the specified `fields`.",
     "categories": [
       "Signal Modifier"
