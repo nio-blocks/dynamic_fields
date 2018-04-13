@@ -5,7 +5,7 @@ from nio.properties import Property, VersionProperty, ListProperty, \
 
 
 class SignalField(PropertyHolder):
-    title = Property(default='', title='Attribute Name')
+    title = Property(default='', title='Attribute Key')
     formula = Property(default='', title='Attribute Value', allow_none=True)
 
 
@@ -25,8 +25,8 @@ class Modifier(Block):
                    specified by `fields`.
     """
 
-    fields = ListProperty(SignalField, title='Fields', default=[])
-    exclude = BoolProperty(default=False, title='Exclude existing fields?')
+    fields = ListProperty(SignalField, title='Attributes', default=[])
+    exclude = BoolProperty(default=False, title='Exclude existing attributes?')
     version = VersionProperty("1.0.0")
 
     def process_signals(self, signals):
