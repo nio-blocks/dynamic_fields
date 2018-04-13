@@ -5,8 +5,8 @@ from nio.properties import Property, VersionProperty, ListProperty, \
 
 
 class SignalField(PropertyHolder):
-    title = Property(default='', title='Attribute Key')
-    formula = Property(default='', title='Attribute Value', allow_none=True)
+    title = Property(default='', title='Key')
+    formula = Property(default='', title='Value', allow_none=True)
 
 
 class Modifier(Block):
