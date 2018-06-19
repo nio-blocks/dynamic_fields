@@ -5,8 +5,9 @@ from nio.properties import Property, VersionProperty, ListProperty, \
 
 
 class SignalField(PropertyHolder):
-    title = Property(default='', title='Attribute Name')
-    formula = Property(default='', title='Attribute Value', allow_none=True)
+    title = Property(default='', title='Attribute Name', order=0)
+    formula = Property(default='', title='Attribute Value', allow_none=True,
+                order=1)
 
 
 class Modifier(Block):
@@ -25,8 +26,9 @@ class Modifier(Block):
                    specified by `fields`.
     """
 
-    fields = ListProperty(SignalField, title='Fields', default=[])
-    exclude = BoolProperty(default=False, title='Exclude existing fields?')
+    exclude = BoolProperty(default=False, title='Exclude existing fields?',
+                order=0)
+    fields = ListProperty(SignalField, title='Fields', default=[], order=1)
     version = VersionProperty("1.0.1")
 
     def process_signals(self, signals):
