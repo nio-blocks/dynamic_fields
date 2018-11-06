@@ -11,7 +11,7 @@ Properties
 
 Example
 -------
-This block configuration will add a random number to every signal:
+This block configuration will add a random number to every signal while preserving the original signal data:
 ```json
 {
   "exclude": false,
@@ -40,7 +40,7 @@ Output signals:
   }
 ]
 ```
-By selecting `Exclude Existing Fields` the original contents of the incoming signals will be lost and outgoing signals will contain only the configured fields:
+By selecting `Exclude Existing Fields` the incoming signals will be discarded and outgoing signals will contain only the configured fields:
 ```json
 {
   "exclude": true,
