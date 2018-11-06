@@ -23,7 +23,7 @@ This block configuration will add a random number to every signal while preservi
   ]
 }
 ```
-<table>
+<table width=100%>
 <tr>
 <th align="left">Incoming Signals</th>
 <th align="left">Outgoing Signals</th>
