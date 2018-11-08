@@ -1,27 +1,22 @@
 Modifier
 ========
-The modifier block adds attributes to existing signals as specified. If the `exclude` flag is set, the block instantiates new (generic) signals and passes them along with *only* the specified `fields`.
-
-Both the key and value of an attribute can evaluate using the [nio expressions](https://docs.n.io/blocks/expressions.html?h=expressions). Several common Python libraries are imported for ease of access, such as `datetime`, `json`, `math`, `random`, `regex`, all of which are documented under the [Python Standard Library](https://docs.python.org/3/library/index.html).
+The modifier block can add or modify fields to incoming signals as key-value pairs. Both the key and value of an attribute (field) can evaluate using [nio expressions](https://docs.n.io/blocks/expressions.html?h=expressions). Several standard Python libraries are imported for ease of access: [datetime](https://docs.python.org/3/library/datetime.html), [json](https://docs.python.org/3/library/json.html), [math](https://docs.python.org/3/library/math.html), [random](https://docs.python.org/3/library/random.html), and [re](https://docs.python.org/3/library/re.html).
 
 Properties
 ----------
-- **exclude**: If checked (true), the attributes of the incoming signal will be excluded from the outgoing signal. If unchecked (false), the attributes of the incoming signal will be included in the outgoing signal.
-- **fields**: List of attribute names and corresponding values to add to the incoming signals.
+- **Excude Existing Fields**: If checked (True) incoming signals will be discarded, and new signals created with only the fields specified. If False, the incoming signals will have the specified fields added to them, or updated if present.
+- **Fields**: List of attributes to add to the incoming signals.
+  - *Title*: The key of this attribute.
+  - *Formula*: The value of this attribute.
 
 Examples
 -------
-This block configuration will add a random number to every signal while preserving the original signal data:
-```json
-{
-  "exclude": false,
-  "fields": [
-    {
-      "title": "random_number",
-      "formula": "{{ random.random() }}"
-    }
-  ]
-}
+This block configuration will add a random number to every signal while preserving the original signal contents:
+```
+Exclude Existing Fields: False,
+Fields:
+  Title: "random_number",
+  Formula: "{{ random.random() }}"
 ```
 <table width=100%>
 <tr>
@@ -52,16 +47,11 @@ This block configuration will add a random number to every signal while preservi
 </table>
 
 By selecting `Exclude Existing Fields` the incoming signals will be discarded and outgoing signals will contain only the configured fields:
-```json
-{
-  "exclude": true,
-  "fields": [
-    {
-      "title": "area",
-      "formula": "{{ math.pi * $radius**2 }}"
-    }
-  ]
-}
+```
+Exclude Existing Fields: True,
+Fields:
+  Title: "area",
+  Formula: "{{ math.pi * $radius ** 2 }}"
 ```
 <table>
 <tr>
@@ -99,4 +89,3 @@ By selecting `Exclude Existing Fields` the incoming signals will be discarded an
 Commands
 --------
 None
-
