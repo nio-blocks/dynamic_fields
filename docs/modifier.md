@@ -4,10 +4,10 @@ The modifier block can add or modify fields to incoming signals as key-value pai
 
 Properties
 ----------
-- **Excude Existing Fields**: If checked (True) incoming signals will be discarded, and new signals created with only the fields specified. If False, the incoming signals will have the specified fields added to them, or updated if present.
 - **Fields**: List of attributes to add to the incoming signals.
   - *Title*: The key of this attribute.
   - *Formula*: The value of this attribute.
+- **Excude Existing Fields**: If checked (True) incoming signals will be discarded, and new signals created with only the fields specified. If False, the incoming signals will have the specified fields added to them, or updated if present.
 
 Examples
 -------
