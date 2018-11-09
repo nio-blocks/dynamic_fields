@@ -1,6 +1,6 @@
 Modifier
 ========
-The modifier block can add or modify fields to incoming signals as key-value pairs. Both the key and value of an attribute (field) can evaluate using [nio expressions](https://docs.n.io/blocks/expressions.html?h=expressions). Several standard Python libraries are imported for ease of access: [datetime](https://docs.python.org/3/library/datetime.html), [json](https://docs.python.org/3/library/json.html), [math](https://docs.python.org/3/library/math.html), [random](https://docs.python.org/3/library/random.html), and [re](https://docs.python.org/3/library/re.html).
+The modifier block can add or modify fields to incoming signals as key-value pairs. Both the key and value of an attribute (field) can evaluate using [nio expressions](https://docs.n.io/blocks/expressions.html). Several standard Python libraries are imported for ease of access: [datetime](https://docs.python.org/3/library/datetime.html), [json](https://docs.python.org/3/library/json.html), [math](https://docs.python.org/3/library/math.html), [random](https://docs.python.org/3/library/random.html), and [re](https://docs.python.org/3/library/re.html). If the value of a field depends on some condition, consider using the [Conditional Modifier](https://blocks.n.io/ConditionalModifier).
 
 Properties
 ----------
