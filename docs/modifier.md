@@ -13,10 +13,10 @@ Examples
 -------
 This block configuration will add a random number to every signal while preserving the original signal contents:
 ```
-Exclude Existing Fields: False,
+Exclude Existing Fields: False
 Fields:
-  Title: "random_number",
-  Formula: "{{ random.random() }}"
+  Title: random_number
+  Formula: {{ random.random() }}
 ```
 <table width=100%>
 <tr>
@@ -48,10 +48,10 @@ Fields:
 
 By selecting `Exclude Existing Fields` the incoming signals will be discarded and outgoing signals will contain only the configured fields:
 ```
-Exclude Existing Fields: True,
+Exclude Existing Fields: True
 Fields:
-  Title: "area",
-  Formula: "{{ math.pi * $radius ** 2 }}"
+  Title: area
+  Formula: {{ math.pi * $radius ** 2 }}
 ```
 <table>
 <tr>
