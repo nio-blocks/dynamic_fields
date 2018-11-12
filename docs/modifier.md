@@ -27,19 +27,14 @@ Fields:
 <td>
 <pre>
 [
-  {
-    "foo": "bar"
-  }
+  {"foo": "bar"}
 ]
 </pre>
 </td>
 <td>
 <pre>
 [
-  {
-    "foo": "bar",
-    "random_number": 0.123...
-  }
+  {"foo": "bar", "random_number": 0.123...}
 ]
 </pre>
 </td>
@@ -62,24 +57,16 @@ Fields:
 <td>
 <pre>
 [
-  {
-    "radius": 2
-  },
-  {
-    "radius": 3
-  }
+  {"radius": 2},
+  {"radius": 3}
 ]
 </pre>
 </td>
 <td>
 <pre>
 [
-  {
-    "area": 12.566...
-  },
-  {
-    "area": 28.274...
-  }
+  {"area": 12.566...},
+  {"area": 28.274...}
 ]
 </pre>
 </td>
