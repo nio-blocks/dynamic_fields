@@ -72,7 +72,3 @@ Fields:
 </td>
 </tr>
 </table>
-
-Commands
---------
-None
