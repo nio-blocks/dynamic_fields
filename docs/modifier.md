@@ -7,7 +7,7 @@ Properties
 - **Fields**: List of attributes to add to the incoming signals.
   - *Title*: The key of this attribute.
   - *Formula*: The value of this attribute.
-- **Excude Existing Fields**: If checked (True) incoming signals will be discarded, and new signals created with only the fields specified. If False, the incoming signals will have the specified fields added to them, or updated if present.
+- **Exclude Existing Fields**: If checked (True) incoming signals will be discarded, and new signals created with only the fields specified. If False, the incoming signals will have the specified fields added to them, or updated if present.
 
 Examples
 -------
@@ -53,7 +53,7 @@ Fields:
   Title: area
   Formula: {{ math.pi * $radius ** 2 }}
 ```
-<table>
+<table width=100%>
 <tr>
 <th align="left">Incoming Signals</th>
 <th align="left">Outgoing Signals</th>
