@@ -26,8 +26,9 @@ class Modifier(Block):
                    specified by `fields`.
     """
 
-    exclude = BoolProperty(default=False, title='Exclude existing fields?',
-                order=0)
+    exclude = BoolProperty(default=False,
+                           title='Exclude existing fields?',
+                           order=0)
     fields = ListProperty(SignalField, title='Fields', default=[], order=1)
     version = VersionProperty("1.1.0")
 
