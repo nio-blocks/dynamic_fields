@@ -30,16 +30,17 @@ class Modifier(Block):
                            title='Exclude existing fields?',
                            order=0)
     fields = ListProperty(SignalField, title='Fields', default=[], order=1)
-    version = VersionProperty("1.1.0")
+    version = VersionProperty("1.1.1")
 
     def process_signals(self, signals):
+        exclude = self.exclude()
         fresh_signals = []
 
         for signal in signals:
 
             # if we are including only the specified fields, create
             # a new, empty signal object
-            tmp = Signal() if self.exclude() else signal
+            tmp = Signal() if exclude else signal
 
             # iterate over the specified fields, evaluating the formula
             # in the context of the original signal
@@ -49,10 +50,10 @@ class Modifier(Block):
                 setattr(tmp, title, value)
 
             # only rebuild the signal list if we're using new objects
-            if self.exclude:
+            if exclude:
                 fresh_signals.append(tmp)
 
-        if self.exclude():
+        if exclude:
             signals = fresh_signals
 
         self.notify_signals(signals)
